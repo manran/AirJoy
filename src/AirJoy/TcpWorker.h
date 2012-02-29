@@ -21,7 +21,7 @@
 #   include <pthread.h>
 #endif
 
-namespace MiniHttpServer
+namespace airjoy
 {
 
   class TcpRequestHandler;

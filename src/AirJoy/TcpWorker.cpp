@@ -23,7 +23,7 @@
 #       include <limits.h>
 #endif
 
-using namespace MiniHttpServer;
+using namespace airjoy;
 
 //---------------------------------------------------------------------------------------------
 // Public API

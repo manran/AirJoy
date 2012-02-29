@@ -23,7 +23,7 @@
 
 #include <list>
 
-namespace MiniHttpServer
+namespace airjoy
 {
 
   class TcpWorker;

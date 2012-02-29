@@ -12,7 +12,7 @@
 #ifndef __TCP_REQUEST_HANDLER_H__
 #define __TCP_REQUEST_HANDLER_H__
 
-namespace MiniHttpServer
+namespace airjoy
 {
 
   class TcpWorker;
