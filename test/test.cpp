@@ -9,27 +9,21 @@
 #include <windows.h>
 #endif
 
-#include "AirJoy.h"
+#include <iostream>
 
-using namespace AirJoy;
+#include "AirJoy/AirJoy.h"
+
+using namespace airjoy;
 
 int main()
 {
+  AirJoy myAirJoy;
 
-#if 0
-  HttpServer myHttpServer;
-
-#if _WIN32
-  std::string home = "f:/test";
-#else
-  std::string home = "/home/ouyang";
-#endif
-
-  myHttpServer.setPort(8080);
-  myHttpServer.setDocumentRoot(home);
-  myHttpServer.start();
-#endif
+  myAirJoy.setPort(9999);
+  myAirJoy.start();
   
+  std::cout << "AirJoy, port: " << myAirJoy.port() << std::endl;
+
 #ifdef _WIN32
   while (1) 
     Sleep(1000);
