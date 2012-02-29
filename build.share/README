@@ -1,0 +1,5 @@
+AirJoy 1.0 for Windows/Linux/OSX
+
+How to build AirJoy ?
+cmake ../
+make
