@@ -9,6 +9,7 @@
  */
 
 #include "AirJoyMessage.h"
+#include <string.h>
 
 using namespace rapidxml;
 using namespace airjoy;
