@@ -12,25 +12,66 @@
 #include <iostream>
 
 #include "AirJoy/AirJoy.h"
+//#include "AirJoy/AirJoyRequest.h"
 
 using namespace airjoy;
 
+AirJoy          myAirJoy;
+//AirJoyRequest   myAirJoyRequest;
+
+void  parseCommand(const std::string &cmd)
+{
+  if (cmd == "help" || cmd == "h")
+  {
+    std::cout << "---------- help ----------" << std::endl;
+    std::cout << "help(h) -- help infomation" << std::endl;
+    std::cout << "exit(x) -- exit" << std::endl;
+    std::cout << "req(r)  -- send request" << std::endl;
+    return;
+  }
+
+  if (cmd == "exit" || cmd == "x")
+  {
+    //myAirJoyRequest.stop();
+    myAirJoy.stop();
+    return;
+  }
+
+  if (cmd == "req" || cmd == "r")
+  {
+    //myAirJoyRequest.query("192.168.0.106", 
+    //                      9999, 
+    //                      "http://www.airjoy.cn/query",
+    //                      "http://www.airjoy.cn/getsharedfolder",
+    //                      "/video");
+    return;
+  }
+}
+
+void command()
+{
+  std::string buf;
+  bool loop = true;
+
+  while (loop)
+  {
+    std::cout << "> ";
+    buf.clear();
+    std::cin >> buf;
+    parseCommand(buf);
+  }
+}
+
 int main()
 {
-  AirJoy myAirJoy;
-
   myAirJoy.setPort(9999);
   myAirJoy.start();
   
   std::cout << "AirJoy, port: " << myAirJoy.port() << std::endl;
 
-#ifdef _WIN32
-  while (1) 
-    Sleep(1000);
-#else
-  while (1) 
-    sleep(1000);
-#endif
+  //myAirJoyRequest.start();
+  
+  command();
 
   return 0;
 }

@@ -12,6 +12,7 @@
 
 namespace airjoy
 {
+
     typedef int AirJoySessionId;
 
     void AirJoySleep(int second);

@@ -10,14 +10,12 @@
 #ifndef __AIRJOY_COMMON_H__
 #define __AIRJOY_COMMON_H__
 
-#include <stdlib.h>
-
 namespace airjoy
 {
+    typedef int AirJoySessionId;
 
     void AirJoySleep(int second);
   
 }
-
 
 #endif // __AIRJOY_COMMON_H__

@@ -282,7 +282,7 @@ bool AirJoyRequest::setSocketNonblock(void)
 #else
   int val = 0; 
   val = ::fcntl(m_tcpSocketNo, F_GETFL, 0);
-  ::fcntl(m_tcpSocketNo, F_SETFL, val | O_NONBLOCK);
+  ::fcntl(m_fd, F_SETFL, val | O_NONBLOCK);
 #endif
 
   return true;
