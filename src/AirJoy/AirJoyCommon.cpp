@@ -16,6 +16,7 @@
 #   include <time.h>
 #   include <sys/time.h>
 #   include <unistd.h>
+#   include <signal.h>
 #endif // _WIN32
 
 using namespace airjoy;
