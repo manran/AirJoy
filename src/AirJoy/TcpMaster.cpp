@@ -46,17 +46,11 @@ TcpMaster::TcpMaster() : m_isInit(false), m_port(0)
 TcpMaster::~TcpMaster()
 {
   this->stop();
-
-  if (m_delegate)
-    delete m_delegate;
 }
 
-void TcpMaster::setDelegate(AirJoyDelegate *delegate)
+void TcpMaster::setDelegate(AirJoyDelegate *d)
 {
-  if (m_delegate)
-    delete m_delegate;
-
-  m_delegate = delegate;
+  m_delegate = d;
 }
 
 bool TcpMaster::start()

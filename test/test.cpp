@@ -46,8 +46,8 @@ void  parseCommand(const std::string &cmd)
   if (cmd == "req" || cmd == "r")
   {
     AirJoySessionId sessionId = 0;
-    sessionId = myAirJoyRequest.query("192.168.0.114", 
-                                      50154, 
+    sessionId = myAirJoyRequest.query("192.168.0.201", 
+                                      9999, 
                                       "http://www.airjoy.cn/query",
                                       "http://www.airjoy.cn/getsharedfolder",
                                       "/video");
@@ -167,12 +167,14 @@ public:
 int main()
 {
   // processor
-  AirJoyProcessor *processor = new AirJoyProcessor;
-  processor->setDelegate(new ProcessorDelegate);
+  AirJoyProcessor *myProcessor = new AirJoyProcessor;
+  ProcessorDelegate *myProcessorDelegate = new ProcessorDelegate;
+  myProcessor->setDelegate(myProcessorDelegate);
 
   // Start AirJoy Server
-  myAirJoy.setProcessor(processor);
-  myAirJoy.setDelegate(new AirDelegate);
+  AirDelegate *myAirDelegate = new AirDelegate;
+  myAirJoy.setProcessor(myProcessor);
+  myAirJoy.setDelegate(myAirDelegate);
 
   myAirJoy.setPort(9999);
   myAirJoy.start();
@@ -180,10 +182,16 @@ int main()
   std::cout << "AirJoy, port: " << myAirJoy.port() << std::endl;
 
   // Start AirJoy Request
+  RequestDelegate *myRequestDelegate = new RequestDelegate;
+  myAirJoyRequest.setDelegate(myRequestDelegate);
   myAirJoyRequest.start();
-  myAirJoyRequest.setDelegate(new RequestDelegate);
 
   command();
+
+  delete myRequestDelegate;
+  delete myAirDelegate;
+  delete myProcessorDelegate;
+  delete myProcessor;
 
   return 0;
 }

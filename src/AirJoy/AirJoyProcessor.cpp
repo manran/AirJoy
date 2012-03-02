@@ -36,8 +36,6 @@ AirJoyProcessor::AirJoyProcessor()
 
 AirJoyProcessor::~AirJoyProcessor()
 {
-  if (m_delegate)
-    delete m_delegate;
 }
 
 AirJoyProcessor::AirJoyProcessor(AirJoyConfig *config)
@@ -50,9 +48,6 @@ AirJoyProcessor::AirJoyProcessor(AirJoyConfig *config)
 
 void AirJoyProcessor::setDelegate(AirJoyProcessorDelegate *processorDelegate)
 {
-  if (m_delegate)
-    delete m_delegate;
-
   m_delegate = processorDelegate;
 }
 

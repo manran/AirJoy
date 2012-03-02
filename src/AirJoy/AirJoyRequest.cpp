@@ -45,16 +45,10 @@ AirJoyRequest::AirJoyRequest()
 AirJoyRequest::~AirJoyRequest()
 {
   this->stop();
-
-  if (m_delegate)
-    delete m_delegate;
 }
 
 void AirJoyRequest::setDelegate(AirJoyRequestDelegate *requestDelegate)
 {
-  if (m_delegate)
-    delete m_delegate;
-
   m_delegate = requestDelegate;
 }
 

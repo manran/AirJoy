@@ -29,9 +29,6 @@ AirJoy::AirJoy()
 
 AirJoy::~AirJoy()
 {
-  if (m_processor)
-    delete m_processor;
-
   delete m_tcpMaster;
 }
 
@@ -85,7 +82,7 @@ void AirJoy::setPort(int port)
 bool AirJoy::handleRequest(TcpWorker *pWorker, const char *data, int length)
 {
   if (m_processor == NULL)
-    m_processor = new AirJoyProcessor(this);
+    return false;
 
   return m_processor->start(pWorker, data, length);
 }

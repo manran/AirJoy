@@ -36,7 +36,7 @@ namespace airjoy
     TcpMaster();
     virtual ~TcpMaster();
 
-    void setDelegate(AirJoyDelegate *delegate);
+    void setDelegate(AirJoyDelegate *d);
 
     bool start();
     void stop();
