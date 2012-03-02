@@ -28,9 +28,7 @@ using namespace airjoy;
 
 AirJoyProcessor::AirJoyProcessor()
 {
-  m_tcpWorker   = NULL;
-  m_config      = NULL;
-  m_dispatcher  = NULL;
+  AirJoyProcessor(NULL);
 }
 
 AirJoyProcessor::~AirJoyProcessor()
@@ -41,6 +39,9 @@ AirJoyProcessor::~AirJoyProcessor()
 
 AirJoyProcessor::AirJoyProcessor(AirJoyConfig *config)
 {
+  m_tcpWorker   = NULL;
+  m_dispatcher  = NULL;
+
   this->setAirJoyConfig(config);
 }
 
@@ -90,6 +91,8 @@ bool AirJoyProcessor::send(AirJoyMessage &message)
 bool AirJoyProcessor::responseForRequest(AirJoyMessage &request, AirJoyMessageType type, const std::string &result)
 {
   AirJoyMessage response(type, request.id(), request.to(), request.from());
+  response.setXmlns(request.xmlns());
+  response.setAppXmlns(request.appXmlns());
   response.setAppResult(result);
 
   return this->send(response);

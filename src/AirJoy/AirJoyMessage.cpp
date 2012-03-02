@@ -108,7 +108,7 @@ bool AirJoyMessage::loadText(const char *data, int length)
   if (query == NULL)
     return false;
 
-  xml_attribute<char> * queryXmlns = iq->first_attribute("xmlns");
+  xml_attribute<char> * queryXmlns = query->first_attribute("xmlns");
   if (queryXmlns == NULL)
     return false;
 
