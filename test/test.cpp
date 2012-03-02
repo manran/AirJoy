@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include "AirJoy/AirJoy.h"
+#include "AirJoy/AirJoyDelegate.h"
 #include "AirJoy/AirJoyRequest.h"
 #include "AirJoy/AirJoyProcessor.h"
 #include "AirJoy/AirJoyProcessorDelegate.h"
@@ -45,8 +46,8 @@ void  parseCommand(const std::string &cmd)
   if (cmd == "req" || cmd == "r")
   {
     AirJoySessionId sessionId = 0;
-    sessionId = myAirJoyRequest.query("192.168.0.201", 
-                                      9999, 
+    sessionId = myAirJoyRequest.query("192.168.0.114", 
+                                      50154, 
                                       "http://www.airjoy.cn/query",
                                       "http://www.airjoy.cn/getsharedfolder",
                                       "/video");
@@ -130,6 +131,38 @@ public:
     }
 };
 
+class AirDelegate : public AirJoyDelegate
+{
+public:
+  AirDelegate() {}
+  virtual ~AirDelegate() {}
+
+  virtual void willStart(void) 
+  {
+    std::cout << "AirJoy willStart" << std::endl;
+  }
+
+  virtual void didStart(void)
+  {
+    std::cout << "AirJoy didStart" << std::endl;
+  }
+
+  virtual void didNotStart(void)
+  {
+    std::cout << "AirJoy didNotStart" << std::endl;
+  }
+
+  virtual void willStop(void)
+  {
+    std::cout << "AirJoy willStop" << std::endl;
+  }
+
+  virtual void didStop(void)
+  {
+    std::cout << "AirJoy didStop" << std::endl;
+  }
+};
+
 
 int main()
 {
@@ -139,10 +172,11 @@ int main()
 
   // Start AirJoy Server
   myAirJoy.setProcessor(processor);
+  myAirJoy.setDelegate(new AirDelegate);
 
   myAirJoy.setPort(9999);
   myAirJoy.start();
-  
+
   std::cout << "AirJoy, port: " << myAirJoy.port() << std::endl;
 
   // Start AirJoy Request

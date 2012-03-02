@@ -15,6 +15,7 @@ SET(AIRJOY_SRC          AirJoy/AirJoyConfig.h
                         AirJoy/AirJoyCommon.cpp
                         AirJoy/AirJoy.h
                         AirJoy/AirJoy.cpp
+                        AirJoy/AirJoyDelegate.h
                         AirJoy/AirJoyProcessor.h
                         AirJoy/AirJoyProcessor.cpp
                         AirJoy/AirJoyProcessorDelegate.h
@@ -22,7 +23,7 @@ SET(AIRJOY_SRC          AirJoy/AirJoyConfig.h
                         AirJoy/AirJoyMessage.cpp
                         AirJoy/AirJoyRequest.h
                         AirJoy/AirJoyRequest.cpp
-			AirJoy/AirJoyRequestDelegate.h
+                        AirJoy/AirJoyRequestDelegate.h
                         AirJoy/AirJoyRequestThread.h
                         AirJoy/AirJoyRequestThread.cpp
                         AirJoy/AirCriticalSection.h

@@ -21,6 +21,7 @@ namespace airjoy
 
   class TcpMaster;
   class AirJoyProcessor;
+  class AirJoyDelegate;
 
   class AirJoy : public TcpRequestHandler, public AirJoyConfig
   {
@@ -35,7 +36,8 @@ namespace airjoy
     int numberOfConnections(void);
 
     void setProcessor(AirJoyProcessor *processor);
-  
+    void setDelegate(AirJoyDelegate *delegate);
+
   public:
     
     // AirJoyConfig

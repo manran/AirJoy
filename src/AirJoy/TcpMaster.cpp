@@ -12,6 +12,7 @@
 #include "TcpMaster.h"
 #include "TcpWorker.h"
 #include "AirJoyCommon.h"
+#include "AirJoyDelegate.h"
 
 #ifdef _WIN32
     typedef int socklen_t;
@@ -39,13 +40,24 @@ TcpMaster::TcpMaster() : m_isInit(false), m_port(0)
 #endif
 
   m_isRunning = false;
+  m_delegate = NULL;
 }
 
 TcpMaster::~TcpMaster()
 {
   this->stop();
+
+  if (m_delegate)
+    delete m_delegate;
 }
 
+void TcpMaster::setDelegate(AirJoyDelegate *delegate)
+{
+  if (m_delegate)
+    delete m_delegate;
+
+  m_delegate = delegate;
+}
 
 bool TcpMaster::start()
 {
@@ -54,7 +66,16 @@ bool TcpMaster::start()
 
   m_isRunning = true;
 
-  init();
+  if (m_delegate)
+    m_delegate->willStart();
+
+  if (! init())
+  {
+    if (m_delegate)
+      m_delegate->didNotStart();
+
+    return false;
+  }
 
 #ifdef _WIN32
   m_thread = CreateThread(NULL, 
@@ -72,13 +93,22 @@ bool TcpMaster::start()
                              (void*)this);
 #endif
 
+  if (m_delegate)
+    m_delegate->didStart();
+
   return true;
 }
 
 void TcpMaster::stop()
 {
+  if (m_delegate)
+    m_delegate->willStop();
+
   this->stopWorkers();
   this->stopMaster();
+
+  if (m_delegate)
+    m_delegate->didStop();
 
   m_isRunning = false;
 }

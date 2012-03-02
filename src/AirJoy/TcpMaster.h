@@ -28,12 +28,15 @@ namespace airjoy
 
   class TcpWorker;
   class TcpRequestHandler;
-  
+  class AirJoyDelegate;
+
   class TcpMaster
   {
   public:
     TcpMaster();
     virtual ~TcpMaster();
+
+    void setDelegate(AirJoyDelegate *delegate);
 
     bool start();
     void stop();
@@ -54,6 +57,8 @@ namespace airjoy
     static void *thread(TcpMaster *pMaster);
 
   private:
+    AirJoyDelegate      *m_delegate;
+
     bool                m_isInit;
     int                 m_port;
 

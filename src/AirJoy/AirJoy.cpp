@@ -61,6 +61,11 @@ void AirJoy::setProcessor(AirJoyProcessor *processor)
   m_processor->setAirJoyConfig(this);
 }
 
+void AirJoy::setDelegate(AirJoyDelegate *delegate)
+{
+  m_tcpMaster->setDelegate(delegate);
+}
+
 //---------------------------------------------------------------------------------------------
 // Virtual API - HttpConfig
 //---------------------------------------------------------------------------------------------
