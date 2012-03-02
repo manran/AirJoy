@@ -21,6 +21,7 @@
 #   include <netinet/in.h>
 #   include <arpa/inet.h>
 #   include <fcntl.h>
+#   include <errno.h>
 #endif
 
 #include <iostream> // for debug
@@ -206,7 +207,12 @@ bool AirJoyRequest::connectServer(int second)
       return false;
     }    
 #else
-    return false;
+    // UNP v1, p385, connect is build but not completed.
+    if (errno != EINPROGRESS)
+    {
+        std::cout << "connect: " << ret << std::endl;
+        return false;
+    }
 #endif
   }
 
