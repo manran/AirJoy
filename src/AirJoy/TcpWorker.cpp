@@ -143,8 +143,8 @@ void * TcpWorker::thread(TcpWorker *pWorker)
 {
   bool loop = true;
 
-  char buf[1024 * 4];
-  int buf_len = 1024 * 4;
+  char buf[1024 * 20];
+  int buf_len = 1024 * 20;
 
   while (loop)
   {

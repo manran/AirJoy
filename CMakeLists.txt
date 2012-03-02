@@ -17,6 +17,7 @@ ENDIF(WIN32)
 #
 #---------------------------------------------------------------------------------------
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src)
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src/MiniIpc/include)
 
 #--------------------------------------------------------------------------------------
 #

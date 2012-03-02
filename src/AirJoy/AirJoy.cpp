@@ -82,5 +82,5 @@ bool AirJoy::handleRequest(TcpWorker *pWorker, const char *data, int length)
   if (m_processor == NULL)
     m_processor = new AirJoyProcessor(this);
 
-  return m_processor->start(pWorker, data);
+  return m_processor->start(pWorker, data, length);
 }

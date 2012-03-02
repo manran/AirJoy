@@ -89,7 +89,7 @@ namespace airjoy
     void setType(AirJoyMessageType type) { m_type = type; }
     AirJoyMessageType type(void) { return m_type; }
 
-    bool loadText(char *data);
+    bool loadText(const char *data, int length);
     const char * toText(void);
   
   private:

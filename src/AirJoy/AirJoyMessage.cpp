@@ -59,10 +59,19 @@ AirJoyMessage::~AirJoyMessage()
 {
 }
 
-bool AirJoyMessage::loadText(char *data)
+bool AirJoyMessage::loadText(const char *data, int length)
 {
   xml_document<> doc;
-  doc.parse<parse_default>(data);
+
+  try
+  {
+    doc.parse<parse_default>((char *)data);
+  }
+  catch (std::exception &e)
+  {
+    (void)e;
+    return false;
+  }
 
   // <iq>
   xml_node<> *iq = doc.first_node();
