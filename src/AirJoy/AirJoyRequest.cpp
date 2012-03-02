@@ -39,6 +39,7 @@ AirJoyRequest::AirJoyRequest()
   m_thread = NULL;
   m_delegate = NULL;
   m_tcpSocketNo = 0;
+  m_timeout = DefaultAirJoyRequestTimeout;
 }
 
 AirJoyRequest::~AirJoyRequest()
@@ -98,52 +99,52 @@ AirJoySessionId AirJoyRequest::query(const std::string &ip,
   return m_thread->pushToQueue(ip, port, message);
 }
 
-void AirJoyRequest::sendAndWaitResponse(const std::string &ip, 
-                                        int port, 
-                                        AirJoyMessage *message, 
-                                        AirJoySessionId sessionId)
+void AirJoyRequest::sendRequestAndWaitResponse(const std::string &ip, 
+                                               int port, 
+                                               AirJoyMessage *request, 
+                                               AirJoySessionId sessionId)
 {
   if (! this->initSocket(ip, port))
   {
     if (m_delegate)
-      m_delegate->didNotInitSocket();
+      m_delegate->didNotInitSocket(sessionId);
 
     return;
   }
 
   do
   {
-    if (! this->connectServer(3))
+    if (! this->connectServer(m_timeout))
     {
       if (m_delegate)
-        m_delegate->didNotConnectServer();
+        m_delegate->didNotConnectServer(sessionId);
 
       break;
     }
 
     if (m_delegate)
-      m_delegate->didConnectServer();
+      m_delegate->didConnectServer(sessionId);
 
-    if (! this->sendToServer(message, sessionId, 3))
+    if (! this->sendToServer(request, sessionId, m_timeout))
     {
       if (m_delegate)
-        m_delegate->didNotSendToServer();
+        m_delegate->didNotSendToServer(sessionId);
 
       break;
     }
 
     if (m_delegate)
-      m_delegate->didSendToServer();
+      m_delegate->didSendToServer(sessionId);
 
     AirJoyMessage response;
     char buf[1024 * 20];
     int len = 1024 * 20;
     memset(buf, 0, len);
 
-    if (! this->recvFromServer(buf, len , 3))
+    if (! this->recvFromServer(buf, len , m_timeout))
     {
       if (m_delegate)
-        m_delegate->didNotRecvFromServer();
+        m_delegate->didNotRecvFromServer(sessionId);
       
       break;
     }

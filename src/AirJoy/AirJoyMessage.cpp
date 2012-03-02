@@ -10,6 +10,7 @@
 
 #include "AirJoyMessage.h"
 #include <string.h>
+#include <sstream>
 
 using namespace rapidxml;
 using namespace airjoy;
@@ -57,6 +58,13 @@ AirJoyMessage::AirJoyMessage(AirJoyMessageType type,
 
 AirJoyMessage::~AirJoyMessage()
 {
+}
+
+void AirJoyMessage::setId(int id)
+{
+  std::stringstream ssId;
+  ssId << id;
+  m_id = ssId.str();
 }
 
 bool AirJoyMessage::loadText(const char *data, int length)

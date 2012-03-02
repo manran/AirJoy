@@ -56,7 +56,7 @@ void AirJoyRequestThread::run()
           m_requestQ.pop();
         }
 
-        m_request->sendAndWaitResponse(info->ip, info->port, info->message, info->sessionId);
+        m_request->sendRequestAndWaitResponse(info->ip, info->port, info->message, info->sessionId);
 
         delete info->message;
         delete info;
@@ -93,6 +93,9 @@ AirJoySessionId AirJoyRequestThread::pushToQueue(const std::string &ip, int port
     return 0;
 
   AirJoySessionId thisSessionId = genNewSessionId();
+
+  // 将sessionid 转为id
+  message->setId(thisSessionId);
 
   // 在弹出队列时释放
   AirRequestInfo *info = new AirRequestInfo;

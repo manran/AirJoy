@@ -47,10 +47,10 @@ namespace airjoy
                           const std::string &appXmlns, 
                           const std::string &param);
 
-    void sendAndWaitResponse(const std::string &ip, 
-                             int port, 
-                             AirJoyMessage *message, 
-                             AirJoySessionId sessionId);
+    void sendRequestAndWaitResponse(const std::string &ip, 
+                                    int port, 
+                                    AirJoyMessage *request, 
+                                    AirJoySessionId sessionId);
 
   private:
     bool initSocket(const std::string &ip, int port);
@@ -66,6 +66,7 @@ namespace airjoy
 
     int                        m_tcpSocketNo;
     struct sockaddr_in         m_tcpServerAddress;
+    int                        m_timeout;
   };
 
 }

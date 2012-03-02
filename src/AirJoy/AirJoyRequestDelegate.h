@@ -24,13 +24,13 @@ namespace airjoy
     AirJoyRequestDelegate() {}
     virtual ~AirJoyRequestDelegate() {}
 
-    virtual void didNotInitSocket(void) {}
-    virtual void didNotConnectServer(void) {}
-    virtual void didNotSendToServer(void) {}
-    virtual void didNotRecvFromServer(void) {}
+    virtual void didNotInitSocket(AirJoySessionId sessionId) {}
+    virtual void didNotConnectServer(AirJoySessionId sessionId) {}
+    virtual void didNotSendToServer(AirJoySessionId sessionId) {}
+    virtual void didNotRecvFromServer(AirJoySessionId sessionId) {}
 
-    virtual void didConnectServer(void) {}
-    virtual void didSendToServer(void) {}
+    virtual void didConnectServer(AirJoySessionId sessionId) {}
+    virtual void didSendToServer(AirJoySessionId sessionId) {}
     virtual void didRecvFromServer(AirJoyMessage &response, AirJoySessionId sessionId) {}
   };
 

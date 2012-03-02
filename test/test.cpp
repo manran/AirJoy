@@ -44,11 +44,15 @@ void  parseCommand(const std::string &cmd)
 
   if (cmd == "req" || cmd == "r")
   {
-    myAirJoyRequest.query("192.168.0.201", 
-                          9999, 
-                          "http://www.airjoy.cn/query",
-                          "http://www.airjoy.cn/getsharedfolder",
-                          "/video");
+    AirJoySessionId sessionId = 0;
+    sessionId = myAirJoyRequest.query("192.168.0.201", 
+                                      9999, 
+                                      "http://www.airjoy.cn/query",
+                                      "http://www.airjoy.cn/getsharedfolder",
+                                      "/video");
+  
+    std::cout << "query sessionId: " << sessionId << std::endl;
+
     return;
   }
 }
@@ -89,34 +93,34 @@ public:
      RequestDelegate() {}
     virtual ~RequestDelegate() {}
 
-    virtual void didNotInitSocket(void) 
+    virtual void didNotInitSocket(AirJoySessionId sessionId) 
     {
-      std::cout << "didNotInitSocket" << std::endl;
+      std::cout << "didNotInitSocket: " << sessionId << std::endl;
     }
 
-    virtual void didNotConnectServer(void) 
+    virtual void didNotConnectServer(AirJoySessionId sessionId) 
     {
-      std::cout << "didNotConnectServer" << std::endl;
+      std::cout << "didNotConnectServer: " << sessionId << std::endl;
     }
 
-    virtual void didNotSendToServer(void) 
+    virtual void didNotSendToServer(AirJoySessionId sessionId) 
     {
-      std::cout << "didNotSendToServer" << std::endl;
+      std::cout << "didNotSendToServer: " << sessionId << std::endl;
     }
 
-    virtual void didNotRecvFromServer(void) 
+    virtual void didNotRecvFromServer(AirJoySessionId sessionId) 
     {
-      std::cout << "didNotRecvFromServer" << std::endl;
+      std::cout << "didNotRecvFromServer: " << sessionId << std::endl;
     }
 
-    virtual void didConnectServer(void) 
+    virtual void didConnectServer(AirJoySessionId sessionId) 
     {
-      std::cout << "didConnectServer" << std::endl;
+      std::cout << "didConnectServer: " << sessionId << std::endl;
     }
 
-    virtual void didSendToServer(void) 
+    virtual void didSendToServer(AirJoySessionId sessionId) 
     {
-      std::cout << "didSendToServer" << std::endl;
+      std::cout << "didSendToServer: " << sessionId << std::endl;
     }
 
     virtual void didRecvFromServer(AirJoyMessage &response, AirJoySessionId sessionId) 

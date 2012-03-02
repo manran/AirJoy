@@ -71,6 +71,7 @@ namespace airjoy
     void setTo(const std::string &to) { m_to = to; }
     const std::string & to(void) {return m_to; }
 
+    void setId(int id);
     void setId(const std::string &id) { m_id = id; }
     const std::string & id(void) { return m_id; } 
 

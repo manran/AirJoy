@@ -20,6 +20,7 @@
 
 using namespace airjoy;
 
+
 void Util::airJoySleep(int second)
 {
 #ifdef _WIN32
