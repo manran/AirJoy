@@ -11,6 +11,7 @@
 
 #include "TcpMaster.h"
 #include "TcpWorker.h"
+#include "AirJoyCommon.h"
 
 #ifdef _WIN32
     typedef int socklen_t;
@@ -166,7 +167,7 @@ bool TcpMaster::init()
   if (m_isInit)
     return true;
 
-  if (! initSocket())
+  if (! airjoy::Util::initSocket())
     return false;
 
   int ret = 0;

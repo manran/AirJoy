@@ -12,12 +12,13 @@
 #include <iostream>
 
 #include "AirJoy/AirJoy.h"
-//#include "AirJoy/AirJoyRequest.h"
+#include "AirJoy/AirJoyRequest.h"
 
 using namespace airjoy;
 
+bool            gLoop = true;
 AirJoy          myAirJoy;
-//AirJoyRequest   myAirJoyRequest;
+AirJoyRequest   myAirJoyRequest;
 
 void  parseCommand(const std::string &cmd)
 {
@@ -32,18 +33,19 @@ void  parseCommand(const std::string &cmd)
 
   if (cmd == "exit" || cmd == "x")
   {
-    //myAirJoyRequest.stop();
+    myAirJoyRequest.stop();
     myAirJoy.stop();
+    gLoop = false;
     return;
   }
 
   if (cmd == "req" || cmd == "r")
   {
-    //myAirJoyRequest.query("192.168.0.106", 
-    //                      9999, 
-    //                      "http://www.airjoy.cn/query",
-    //                      "http://www.airjoy.cn/getsharedfolder",
-    //                      "/video");
+    myAirJoyRequest.query("192.168.0.201", 
+                          9999, 
+                          "http://www.airjoy.cn/query",
+                          "http://www.airjoy.cn/getsharedfolder",
+                          "/video");
     return;
   }
 }
@@ -51,9 +53,8 @@ void  parseCommand(const std::string &cmd)
 void command()
 {
   std::string buf;
-  bool loop = true;
 
-  while (loop)
+  while (gLoop)
   {
     std::cout << "> ";
     buf.clear();
@@ -65,11 +66,11 @@ void command()
 int main()
 {
   myAirJoy.setPort(9999);
-  myAirJoy.start();
+  //myAirJoy.start();
   
   std::cout << "AirJoy, port: " << myAirJoy.port() << std::endl;
 
-  //myAirJoyRequest.start();
+  myAirJoyRequest.start();
   
   command();
 

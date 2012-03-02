@@ -15,8 +15,12 @@ namespace airjoy
 
     typedef int AirJoySessionId;
 
-    void AirJoySleep(int second);
-  
+    class Util
+    {
+    public:
+      static void airJoySleep(int second);
+      static bool initSocket(void);
+    };
 }
 
 #endif // __AIRJOY_COMMON_H__

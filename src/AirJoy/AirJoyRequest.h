@@ -50,8 +50,8 @@ namespace airjoy
                              AirJoySessionId sessionId);
 
   private:
-    bool InitSocket(const std::string &ip, int port);
-    bool ReleaseSocket(void);
+    bool initSocket(const std::string &ip, int port);
+    bool releaseSocket(void);
     bool connectServer(int second);
     bool sendToServer(AirJoyMessage *message, AirJoySessionId sessionId, int second);
     bool recvFromServer(int second);

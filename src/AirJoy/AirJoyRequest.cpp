@@ -31,6 +31,8 @@ using namespace airjoy;
 
 AirJoyRequest::AirJoyRequest()
 {
+  airjoy::Util::initSocket();
+
   m_thread = NULL;
 }
 
@@ -85,7 +87,7 @@ void AirJoyRequest::sendAndWaitResponse(const std::string &ip,
                                         AirJoyMessage *message, 
                                         AirJoySessionId sessionId)
 {
-  if (! this->InitSocket(ip, port))
+  if (! this->initSocket(ip, port))
     return;
   
   do
@@ -101,14 +103,14 @@ void AirJoyRequest::sendAndWaitResponse(const std::string &ip,
   }
   while (0);
  
-  this->ReleaseSocket(); 
+  this->releaseSocket(); 
 }
 
 //---------------------------------------------------------------------------------------------
 // Private API
 //---------------------------------------------------------------------------------------------
 
-bool AirJoyRequest::InitSocket(const std::string &ip, 
+bool AirJoyRequest::initSocket(const std::string &ip, 
                                int port)
 {
   m_tcpSocketNo = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -123,7 +125,7 @@ bool AirJoyRequest::InitSocket(const std::string &ip,
   return true;
 }
 
-bool AirJoyRequest::ReleaseSocket(void)
+bool AirJoyRequest::releaseSocket(void)
 {
 #ifdef _WIN32
   ::closesocket(m_tcpSocketNo);
@@ -143,8 +145,20 @@ bool AirJoyRequest::connectServer(int second)
 
   // connect error
   if (ret < 0)
+  {
+#ifdef _WIN32
+    // 无法立即完成一个非阻挡性套接字操作，需要用select等待
+    DWORD e = ::GetLastError();
+    if (e != 10035)
+    {
+      std::cout << "errno: " << e << std::endl;
+      return false;
+    }    
+#else
     return false;
-  
+#endif
+  }
+
   // connect completed immediately
   if (ret == 0)
     return true;
@@ -256,6 +270,7 @@ bool AirJoyRequest::recvFromServer(int second)
     int n = 0;
     char buf[1024 * 20];
     int len = 1024 * 20;
+    memset(buf, 0, len);
     n = ::recv(m_tcpSocketNo, buf, len, 0);
     if (n < 0)
       return false;

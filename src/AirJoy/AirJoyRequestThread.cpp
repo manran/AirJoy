@@ -64,7 +64,7 @@ void AirJoyRequestThread::run()
     }
     else
     {
-      AirJoySleep(1);
+      airjoy::Util::airJoySleep(1);
     }
   }
 

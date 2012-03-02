@@ -20,7 +20,7 @@
 
 using namespace airjoy;
 
-void AirJoySleep(int second)
+void Util::airJoySleep(int second)
 {
 #ifdef _WIN32
     Sleep(second * 1000);
@@ -29,3 +29,26 @@ void AirJoySleep(int second)
 #endif
 }
 
+bool Util::initSocket()
+{
+  static bool isAlreadyInit = false;
+
+  if (isAlreadyInit)
+    return true;
+
+#ifdef WIN32
+  WORD wVersionRequested;
+  WSADATA wsaData;
+  wVersionRequested = MAKEWORD( 2, 0 );
+
+  if (WSAStartup(wVersionRequested, &wsaData) != 0)
+    return false;
+#else
+  // Ignore SIGPIPE signal, so if browser cancels the request, it won't kill the whole process.
+  (void) signal(SIGPIPE, SIG_IGN);
+#endif
+
+  isAlreadyInit = true;
+
+  return true;
+}
