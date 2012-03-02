@@ -18,7 +18,7 @@ namespace airjoy
 
   class TcpWorker;
   class AirJoyConfig;
-  class AirJoyDispatcher;
+  class AirJoyProcessorDelegate;
 
   class AirJoyProcessor
   {
@@ -26,8 +26,11 @@ namespace airjoy
       AirJoyProcessor();
       AirJoyProcessor(AirJoyConfig *config);
       virtual ~AirJoyProcessor();
+    
+      void setDelegate(AirJoyProcessorDelegate *processorDelegate);
 
       void setAirJoyConfig(AirJoyConfig *config);
+
       bool start(TcpWorker *pWorker, const char *data, int length);
 
       bool send(AirJoyMessage &message);
@@ -38,9 +41,9 @@ namespace airjoy
       bool notSupportForRequest(void);
 
   private:
-      TcpWorker             *m_tcpWorker;
-      AirJoyConfig          *m_config;
-      AirJoyDispatcher      *m_dispatcher;
+      TcpWorker                 *m_tcpWorker;
+      AirJoyConfig              *m_config;
+      AirJoyProcessorDelegate   *m_delegate;
   };
 
 

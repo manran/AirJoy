@@ -10,6 +10,8 @@
 
 #include "AirJoyRequest.h"
 #include "AirJoyRequestThread.h"
+#include "AirJoyRequestDelegate.h"
+
 
 #ifdef _WIN32
 #   include <winsock.h>
@@ -34,11 +36,24 @@ AirJoyRequest::AirJoyRequest()
   airjoy::Util::initSocket();
 
   m_thread = NULL;
+  m_delegate = NULL;
+  m_tcpSocketNo = 0;
 }
 
 AirJoyRequest::~AirJoyRequest()
 {
   this->stop();
+
+  if (m_delegate)
+    delete m_delegate;
+}
+
+void AirJoyRequest::setDelegate(AirJoyRequestDelegate *requestDelegate)
+{
+  if (m_delegate)
+    delete m_delegate;
+
+  m_delegate = requestDelegate;
 }
 
 bool AirJoyRequest::start(void)
@@ -88,18 +103,54 @@ void AirJoyRequest::sendAndWaitResponse(const std::string &ip,
                                         AirJoySessionId sessionId)
 {
   if (! this->initSocket(ip, port))
+  {
+    if (m_delegate)
+      m_delegate->didNotInitSocket();
+
     return;
-  
+  }
+
   do
   {
     if (! this->connectServer(3))
+    {
+      if (m_delegate)
+        m_delegate->didNotConnectServer();
+
       break;
+    }
+
+    if (m_delegate)
+      m_delegate->didConnectServer();
 
     if (! this->sendToServer(message, sessionId, 3))
-      break;
+    {
+      if (m_delegate)
+        m_delegate->didNotSendToServer();
 
-    if (! this->recvFromServer(3))
       break;
+    }
+
+    if (m_delegate)
+      m_delegate->didSendToServer();
+
+    AirJoyMessage response;
+    char buf[1024 * 20];
+    int len = 1024 * 20;
+    memset(buf, 0, len);
+
+    if (! this->recvFromServer(buf, len , 3))
+    {
+      if (m_delegate)
+        m_delegate->didNotRecvFromServer();
+      
+      break;
+    }
+
+    response.loadText(buf, strlen(buf));
+
+    if (m_delegate)
+      m_delegate->didRecvFromServer(response, sessionId);
   }
   while (0);
  
@@ -147,7 +198,7 @@ bool AirJoyRequest::connectServer(int second)
   if (ret < 0)
   {
 #ifdef _WIN32
-    // 无法立即完成一个非阻挡性套接字操作，需要用select等待
+    // 10035 = A non-blocking socket operation could not be completed immediately.  
     DWORD e = ::GetLastError();
     if (e != 10035)
     {
@@ -244,7 +295,7 @@ bool AirJoyRequest::sendToServer(AirJoyMessage *message,
   return false;
 }
 
-bool AirJoyRequest::recvFromServer(int second)
+bool AirJoyRequest::recvFromServer(char *buf, int len, int second)
 {
   struct timeval  tv;
   int             maxfd;
@@ -268,17 +319,12 @@ bool AirJoyRequest::recvFromServer(int second)
   if (FD_ISSET(m_tcpSocketNo, &readSet))
   {
     int n = 0;
-    char buf[1024 * 20];
-    int len = 1024 * 20;
-    memset(buf, 0, len);
     n = ::recv(m_tcpSocketNo, buf, len, 0);
     if (n < 0)
       return false;
     
     if (n == 0)
       return false;
-
-    std::cout << "recv: " << buf << std::endl;
 
     return true;
   }

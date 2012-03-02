@@ -11,23 +11,24 @@ SET(TCPSERVER_SRC       AirJoy/TcpMaster.h
                         AirJoy/TcpWorker.cpp)
 						
 SET(AIRJOY_SRC          AirJoy/AirJoyConfig.h
-	                AirJoy/AirJoyCommon.h
-	                AirJoy/AirJoyCommon.cpp
+                        AirJoy/AirJoyCommon.h
+                        AirJoy/AirJoyCommon.cpp
                         AirJoy/AirJoy.h
                         AirJoy/AirJoy.cpp
                         AirJoy/AirJoyProcessor.h
                         AirJoy/AirJoyProcessor.cpp
+                        AirJoy/AirJoyProcessorDelegate.h
                         AirJoy/AirJoyMessage.h
                         AirJoy/AirJoyMessage.cpp
-                        AirJoy/AirJoyDispatcher.h
-			AirJoy/AirJoyRequest.h
-			AirJoy/AirJoyRequest.cpp
-			AirJoy/AirJoyRequestThread.h
-			AirJoy/AirJoyRequestThread.cpp
-			AirJoy/AirCriticalSection.h
-			AirJoy/AirCriticalSection.cpp
-			AirJoy/AirThread.h
-			AirJoy/AirThread.cpp)
+                        AirJoy/AirJoyRequest.h
+                        AirJoy/AirJoyRequest.cpp
+			AirJoy/AirJoyRequestDelegate.h
+                        AirJoy/AirJoyRequestThread.h
+                        AirJoy/AirJoyRequestThread.cpp
+                        AirJoy/AirCriticalSection.h
+                        AirJoy/AirCriticalSection.cpp
+                        AirJoy/AirThread.h
+                        AirJoy/AirThread.cpp)
 
 SET(MINIIPC_SRC 	MiniIpc/include/MiniNotify.h
                 	MiniIpc/include/MiniNotifyInfo.h

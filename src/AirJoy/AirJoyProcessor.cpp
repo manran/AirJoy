@@ -10,7 +10,7 @@
 
 #include "AirJoyProcessor.h"
 #include "TcpWorker.h"
-#include "AirJoyDispatcher.h"
+#include "AirJoyProcessorDelegate.h"
 
 #include <stdlib.h>
 
@@ -28,21 +28,32 @@ using namespace airjoy;
 
 AirJoyProcessor::AirJoyProcessor()
 {
-  AirJoyProcessor(NULL);
+  m_tcpWorker   = NULL;
+  m_delegate    = NULL;
+
+  this->setAirJoyConfig(NULL);
 }
 
 AirJoyProcessor::~AirJoyProcessor()
 {
-  if (m_dispatcher)
-    delete m_dispatcher;
+  if (m_delegate)
+    delete m_delegate;
 }
 
 AirJoyProcessor::AirJoyProcessor(AirJoyConfig *config)
 {
   m_tcpWorker   = NULL;
-  m_dispatcher  = NULL;
+  m_delegate    = NULL;
 
   this->setAirJoyConfig(config);
+}
+
+void AirJoyProcessor::setDelegate(AirJoyProcessorDelegate *processorDelegate)
+{
+  if (m_delegate)
+    delete m_delegate;
+
+  m_delegate = processorDelegate;
 }
 
 void AirJoyProcessor::setAirJoyConfig(AirJoyConfig *config)
@@ -63,13 +74,13 @@ bool AirJoyProcessor::start(TcpWorker *pWorker, const char *data, int length)
   }
 
   // dispatch xml message
-  if (m_dispatcher == NULL)
-    m_dispatcher = new AirJoyDispatcher;
-
-  if (m_dispatcher->didReceive(this, request))
+  if (m_delegate)
   {
-    // server close socket!
-    return false;
+    if (m_delegate->didReceiveRequest(this, request))
+    {
+      // server close socket!
+      return false;
+    }
   }
 
   // not support message

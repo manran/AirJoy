@@ -28,13 +28,16 @@ namespace airjoy
 
   class AirJoyMessage;
   class AirJoyRequestThread;
+  class AirJoyRequestDelegate;
 
   class AirJoyRequest
   {
   public:
     AirJoyRequest();
     virtual ~AirJoyRequest();
-  
+
+    void setDelegate(AirJoyRequestDelegate *requestDelegate);
+
     bool start();
     void stop();
 
@@ -54,11 +57,12 @@ namespace airjoy
     bool releaseSocket(void);
     bool connectServer(int second);
     bool sendToServer(AirJoyMessage *message, AirJoySessionId sessionId, int second);
-    bool recvFromServer(int second);
+    bool recvFromServer(char *buf, int len, int second);
     bool setSocketNonblock(void);
     
   private:
     AirJoyRequestThread       *m_thread;
+    AirJoyRequestDelegate     *m_delegate;
 
     int                        m_tcpSocketNo;
     struct sockaddr_in         m_tcpServerAddress;
