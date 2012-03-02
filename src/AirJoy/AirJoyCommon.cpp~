@@ -1,0 +1,21 @@
+
+
+
+#ifdef _WIN32
+#   include <windows.h>
+#else
+#   include <time.h>
+#   include <sys/time.h>
+#endif // _WIN32
+
+using namespace airjoy;
+
+void ipush_sleep(int second)
+{
+#ifdef _WIN32
+    Sleep(second * 1000);
+#else
+    sleep(second);
+#endif
+}
+

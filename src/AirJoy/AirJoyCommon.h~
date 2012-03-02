@@ -1,0 +1,23 @@
+/*
+ * jxfengzi@gmail.com 
+ *
+ * AirJoyCommon.h
+ *
+ * 2012-3-1
+ *
+ */
+
+#ifndef __AIRJOY_COMMON_H__
+#define __AIRJOY_COMMON_H__
+
+#include <stdlib.h>
+
+namespace airjoy
+{
+
+    void AirJoySleep(int second);
+  
+}
+
+
+#endif // __AIRJOY_COMMON_H__
