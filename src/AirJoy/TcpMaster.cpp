@@ -101,6 +101,9 @@ bool TcpMaster::start()
 
 void TcpMaster::stop()
 {
+  if (! m_isRunning)
+    return;
+
   if (m_delegate)
     m_delegate->willStop();
 
